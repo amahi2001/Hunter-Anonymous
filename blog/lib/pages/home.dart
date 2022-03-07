@@ -12,11 +12,33 @@ class _HomePageState extends State<HomePage> {
     return Scaffold(
       appBar: AppBar(
         //this creates an appbar at the top my page
-        title: Text('Blog Home'),
+        title: Text('Blog Home',
+          style: 
+            TextStyle(
+              color: Colors.blue.shade800,
+              fontWeight: FontWeight.bold,
+              fontSize: 40),
+        ),
+        // A gradient appbar background.
+        flexibleSpace: Container(
+          decoration: BoxDecoration(
+            gradient: LinearGradient(
+              begin: Alignment.topLeft,
+              end: Alignment.bottomRight,
+              colors: <Color>[
+                Colors.blue.shade100,
+                Colors.yellow.shade100,
+              ]
+              )
+          )
+        ),
         centerTitle: true,
         elevation: 0, //shadow below the appBar
-        backgroundColor: Colors.purple,
+        toolbarHeight: 60,
       ),
+      body: Column(
+        
+      )
     );
   }
 }
