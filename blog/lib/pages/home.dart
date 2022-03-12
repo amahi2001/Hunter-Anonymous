@@ -70,10 +70,10 @@ class _HomePageState extends State<HomePage> {
                           ),
                           contentPadding: EdgeInsets.only(left: 10),
                           fillColor: Colors.deepPurple.shade100,
-                          filled: true,
-                          border: OutlineInputBorder()),
+                          filled: true),
                         style: TextStyle(
                           fontSize: 26)),
+                      SizedBox(height: 5),
                       ElevatedButton(
                           // this is our submit button
                           onPressed: () async {
@@ -86,10 +86,17 @@ class _HomePageState extends State<HomePage> {
                           },
                           child: Text(
                             'Submit Post',
-                            style: TextStyle(color: Colors.white),
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 26,
+                              wordSpacing: 6)),
+                          style: ButtonStyle(
+                            backgroundColor: MaterialStateProperty.all<Color>(Colors.deepPurple),
+                            fixedSize: MaterialStateProperty.all(const Size(180, 40))
                           )),
                     ],
                   ),
+                  padding: EdgeInsets.only(bottom: 5)
                 ),
               ),
               StreamBuilder<QuerySnapshot>(
@@ -117,14 +124,23 @@ class _HomePageState extends State<HomePage> {
                                 Expanded(
                                   child: Column(
                                     children: <Widget>[
-                                      Text(snapshot.data?.docs[index]['Text']),
+                                      Text(snapshot.data?.docs[index]['Text'],
+                                      style: TextStyle(
+                                        fontSize: 20,
+                                        wordSpacing: 3
+                                      )),
                                     ],
                                   ),
                                 ),
                                 Expanded(
                                   child: Column(
                                     children: <Widget>[
-                                      Text(formatted_date),
+                                      Text(
+                                        formatted_date,
+                                        style: TextStyle(
+                                          fontSize: 18,
+                                          wordSpacing: 5
+                                        )),
                                     ],
                                   ),
                                 ),
@@ -137,17 +153,27 @@ class _HomePageState extends State<HomePage> {
                                             onPressed: () {},
                                             child: Icon(Icons.thumb_up)),
                                         Text(
-                                            '${snapshot.data?.docs[index]['Upvotes']}'),
+                                            '${snapshot.data?.docs[index]['Upvotes']}',
+                                            style: TextStyle(
+                                              fontSize: 18)),
+                                        SizedBox(width: 15),
                                         ElevatedButton(
                                             onPressed: () {},
                                             child: Icon(Icons.thumb_down)),
                                         Text(
-                                            '${snapshot.data?.docs[index]['Downvotes']}'),
+                                            '${snapshot.data?.docs[index]['Downvotes']}',
+                                            style: TextStyle(
+                                              fontSize: 18)),
                                       ],
                                     )
                                   ],
                                 ),
                               ]),
+                              color: Colors.deepPurple.shade100,
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(5),
+                                side: BorderSide(color: Colors.deepPurple.shade200, width: 1)),
+                              margin: EdgeInsets.fromLTRB(15, 5, 15, 5)
                         );
                       },
                     );
