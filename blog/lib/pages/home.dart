@@ -52,29 +52,36 @@ class _HomePageState extends State<HomePage> {
             child: Column(
           children: [
             Card(
-              child: TextField(
-                keyboardType: TextInputType.multiline,
-                maxLines: null,
-                onChanged: (value) {
-                  post_text = value;
-                },
-                decoration: InputDecoration(hintText: 'Enter Post'),
+              child: Container(
+                width: 0.98 * MediaQuery.of(context).size.width,
+                child: Column(
+                  children: [
+                    TextField(
+                      keyboardType: TextInputType.multiline,
+                      maxLines: null,
+                      onChanged: (value) {
+                        post_text = value;
+                      },
+                      decoration: InputDecoration(hintText: 'Enter Post'),
+                    ),
+                    ElevatedButton(
+                        // this is our submit button
+                        onPressed: () async {
+                          await posts.add({
+                            'Date': today,
+                            'Downvotes': 0,
+                            'Text': post_text,
+                            'Upvotes': 0
+                          }).then((value) => print('post successful'));
+                        },
+                        child: Text(
+                          'Submit Post',
+                          style: TextStyle(color: Colors.white),
+                        )),
+                  ],
+                ),
               ),
             ),
-            ElevatedButton(
-                // this is our submit button
-                onPressed: () async {
-                  await posts.add({
-                    'Date': today,
-                    'Downvotes': 0,
-                    'Text': post_text,
-                    'Upvotes': 0
-                  }).then((value) => print('post successful'));
-                },
-                child: Text(
-                  'Submit Post',
-                  style: TextStyle(color: Colors.white),
-                )),
             StreamBuilder<QuerySnapshot>(
                 stream: posts.orderBy('Upvotes').snapshots(),
                 builder: (context, snapshot) {
@@ -92,44 +99,45 @@ class _HomePageState extends State<HomePage> {
                       String formatted_date = DateFormat()
                           .format(snapshot.data?.docs[index]['Date'].toDate());
                       return Card(
-                        child: Row(children: [
-                          Column(
+                        child: Row(
+                            // mainAxisSize: MainAxisSize.min,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            // mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                              Text(snapshot.data?.docs[index]['Text']),
-                            ],
-                          ),
-                          SizedBox(
-                            width: 200,
-                          ),
-                          Column(
-                            children: [
-                              Text(formatted_date),
-                            ],
-                          ),
-                          SizedBox(
-                            width: 200,
-                          ),
-                          Column(
-                            children: [
-                              ElevatedButton(
-                                  onPressed: () {},
-                                  child: Icon(Icons.thumb_up)),
-                              Text('${snapshot.data?.docs[index]['Upvotes']}'),
-                            ],
-                          ),
-                          SizedBox(
-                            width: 100,
-                          ),
-                          Column(
-                            children: [
-                              ElevatedButton(
-                                  onPressed: () {},
-                                  child: Icon(Icons.thumb_down)),
-                              Text(
-                                  '${snapshot.data?.docs[index]['Downvotes']}'),
-                            ],
-                          )
-                        ]),
+                              Expanded(
+                                child: Column(
+                                  children: <Widget>[
+                                    Text(snapshot.data?.docs[index]['Text']),
+                                  ],
+                                ),
+                              ),
+                              Expanded(
+                                child: Column(
+                                  children: <Widget>[
+                                    Text(formatted_date),
+                                  ],
+                                ),
+                              ),
+                              Column(
+                                children: [
+                                  Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      ElevatedButton(
+                                          onPressed: () {},
+                                          child: Icon(Icons.thumb_up)),
+                                      Text(
+                                          '${snapshot.data?.docs[index]['Upvotes']}'),
+                                      ElevatedButton(
+                                          onPressed: () {},
+                                          child: Icon(Icons.thumb_down)),
+                                      Text(
+                                          '${snapshot.data?.docs[index]['Downvotes']}'),
+                                    ],
+                                  )
+                                ],
+                              ),
+                            ]),
                       );
                     },
                   );
