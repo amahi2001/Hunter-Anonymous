@@ -1,9 +1,11 @@
+import 'dart:html';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:intl/intl.dart';
 
 DateTime today =
-    DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day);
+    DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day, DateTime.now().hour, DateTime.now().minute, DateTime.now().second);
 
 class HomePage extends StatefulWidget {
   @override
@@ -68,7 +70,7 @@ class _HomePageState extends State<HomePage> {
                   style: TextStyle(color: Colors.white),
                 )),
             StreamBuilder<QuerySnapshot>(
-                stream: posts.snapshots(),
+                stream: posts.orderBy('Upvotes').snapshots(),
                 builder: (context, snapshot) {
                   if (snapshot.hasError) {
                     return Text('Something went wrong');
@@ -81,9 +83,11 @@ class _HomePageState extends State<HomePage> {
                     shrinkWrap: true,
                     itemCount: snapshot.data!.size,
                     itemBuilder: (context, index) {
+                      String formatted_date  = DateFormat().format(snapshot.data?.docs[index]['Date'].toDate());
                       return Card(
                           child: ListTile(
                         title: Text(snapshot.data?.docs[index]['Text']),
+                        subtitle: Text(formatted_date),
                       ));
                     },
                   );
