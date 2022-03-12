@@ -19,8 +19,11 @@ class Body extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'Anonymous blog', //title of the tab
       theme: ThemeData(
-          primarySwatch: Colors.lightBlue,
-          textTheme: GoogleFonts.neutonTextTheme(Theme.of(context).textTheme)),
+          primarySwatch: Colors.deepPurple,
+          textTheme: GoogleFonts.neutonTextTheme(Theme.of(context).textTheme),
+          scrollbarTheme: ScrollbarThemeData(
+            thumbColor: MaterialStateProperty.all(Colors.deepPurple.shade300)
+          )),
       home: HomePage(), //this is the home page
     );
   }
