@@ -32,6 +32,15 @@ _goToTWPage() async {
   }
 }
 
+_goToINSPage() async {
+  const ins_url = 'https://www.instagram.com/hunter_anonymous395/';
+  if (await canLaunch(ins_url)) {
+    await launch(ins_url);
+  } else {
+    throw 'Could not launch $ins_url';
+  }
+}
+
 class HomePage extends StatefulWidget {
   @override
   State<HomePage> createState() => _HomePageState();
@@ -60,13 +69,19 @@ class _HomePageState extends State<HomePage> {
                 color: Colors.deepPurple.shade400,
                 size: 35),
               splashRadius: 25),
-              SizedBox(width:25),
+              SizedBox(width: 25),
             IconButton(onPressed: _goToTWPage,
               icon: Icon(FontAwesome5.twitter,
                 color: Colors.deepPurple.shade400,
                 size: 30),
               splashRadius: 25),
-              SizedBox(width:15)
+              SizedBox(width: 25),
+            IconButton(onPressed: _goToINSPage,
+              icon: Icon(FontAwesome5.instagram,
+                color:Colors.deepPurple.shade400,
+                size: 30),
+              splashRadius: 25),
+              SizedBox(width: 15)
           ],
           // A gradient appbar background.
           flexibleSpace: Container(
