@@ -4,8 +4,13 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:intl/intl.dart';
 
-DateTime today =
-    DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day, DateTime.now().hour, DateTime.now().minute, DateTime.now().second);
+DateTime today = DateTime(
+    DateTime.now().year,
+    DateTime.now().month,
+    DateTime.now().day,
+    DateTime.now().hour,
+    DateTime.now().minute,
+    DateTime.now().second);
 
 class HomePage extends StatefulWidget {
   @override
@@ -43,7 +48,8 @@ class _HomePageState extends State<HomePage> {
           elevation: 0, //shadow below the appBar
           toolbarHeight: 60,
         ),
-        body: Column(
+        body: SingleChildScrollView(
+            child: Column(
           children: [
             Card(
               child: TextField(
@@ -83,29 +89,52 @@ class _HomePageState extends State<HomePage> {
                     shrinkWrap: true,
                     itemCount: snapshot.data!.size,
                     itemBuilder: (context, index) {
-                      String formatted_date  = DateFormat().format(snapshot.data?.docs[index]['Date'].toDate());
+                      String formatted_date = DateFormat()
+                          .format(snapshot.data?.docs[index]['Date'].toDate());
                       return Card(
                         child: Row(children: [
-                          Column(children: [Text(snapshot.data?.docs[index]['Text']),],),
-                          SizedBox(width: 200,),
-                          Column(children: [Text(formatted_date),],),
-                          SizedBox(width: 200,),
-                          Column(children: [
-                            ElevatedButton(onPressed: (){
-                            }, child: Icon(Icons.thumb_up)),
-                            Text('${snapshot.data?.docs[index]['Upvotes']}'),
-                            ],),
-                          SizedBox(width: 100,),
-                          Column(children: [
-                            ElevatedButton(onPressed: (){}, child: Icon(Icons.thumb_down)),
-                            Text('${snapshot.data?.docs[index]['Downvotes']}'),],)
+                          Column(
+                            children: [
+                              Text(snapshot.data?.docs[index]['Text']),
+                            ],
+                          ),
+                          SizedBox(
+                            width: 200,
+                          ),
+                          Column(
+                            children: [
+                              Text(formatted_date),
+                            ],
+                          ),
+                          SizedBox(
+                            width: 200,
+                          ),
+                          Column(
+                            children: [
+                              ElevatedButton(
+                                  onPressed: () {},
+                                  child: Icon(Icons.thumb_up)),
+                              Text('${snapshot.data?.docs[index]['Upvotes']}'),
+                            ],
+                          ),
+                          SizedBox(
+                            width: 100,
+                          ),
+                          Column(
+                            children: [
+                              ElevatedButton(
+                                  onPressed: () {},
+                                  child: Icon(Icons.thumb_down)),
+                              Text(
+                                  '${snapshot.data?.docs[index]['Downvotes']}'),
+                            ],
+                          )
                         ]),
-                
                       );
                     },
                   );
                 }),
           ],
-        ));
+        )));
   }
 }
