@@ -1,4 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_core/firebase_core.dart';
+
+DateTime today =
+    DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day);
 
 class HomePage extends StatefulWidget {
   @override
@@ -6,13 +11,17 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  //today's date
+  late String post_text; //this is the user's post
+  CollectionReference posts =
+      FirebaseFirestore.instance.collection('posts'); //firebase instance
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
           //this creates an appbar at the top my page
           title: Text(
-            'Blog Home',
+            'Hunter Anonymous',
             style: TextStyle(
                 color: Colors.blue.shade800,
                 fontWeight: FontWeight.bold,
@@ -34,53 +43,51 @@ class _HomePageState extends State<HomePage> {
         ),
         body: Column(
           children: [
-            Padding(
-              padding: const EdgeInsets.only(top: 26),
-              child: Container(
-                width: MediaQuery.of(context).size.width,
-                child: Column(
-                  children: [
-                    Text(
-                      "Welcome to Hunter's Voice",
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 65,
-                      ),
-                    ),
-                    SizedBox(height: 10),
-                    Text(
-                      "Share your complaints anonymously,\n let everyone hear your thoughts.",
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                        fontStyle: FontStyle.italic,
-                        fontSize: 52,
-                      ),
-                    ),
-                    SizedBox(
-                      height: 50,
-                    ),
-                    Container(
-                      width: 285,
-                      decoration: BoxDecoration(
-                          border: Border(
-                              bottom:
-                                  BorderSide(color: Colors.black, width: 5))),
-                    ),
-                    SizedBox(height: 60),
-                    Container(
-                      width: 0.8 * MediaQuery.of(context).size.width,
-                      height: 400,
-                      child: Card(
-                        clipBehavior: Clip.antiAlias,
-                        child: Column(
-                            children: [Text("NO homeworks and NO projects")]),
-                      ),
-                    )
-                  ],
-                ),
+            Card(
+              child: TextField(
+                keyboardType: TextInputType.multiline,
+                maxLines: null,
+                onChanged: (value) {
+                  post_text = value;
+                },
+                decoration: InputDecoration(hintText: 'Enter Post'),
               ),
-            )
+            ),
+            ElevatedButton(
+                // this is our submit button
+                onPressed: () async {
+                  await posts.add({
+                    'Date': today,
+                    'Downvotes': 0,
+                    'Text': post_text,
+                    'Upvotes': 0
+                  }).then((value) => print('post successful'));
+                },
+                child: Text(
+                  'Submit Post',
+                  style: TextStyle(color: Colors.white),
+                )),
+            StreamBuilder<QuerySnapshot>(
+                stream: posts.snapshots(),
+                builder: (context, snapshot) {
+                  if (snapshot.hasError) {
+                    return Text('Something went wrong');
+                  }
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return Text("Loading");
+                  }
+
+                  return ListView.builder(
+                    shrinkWrap: true,
+                    itemCount: snapshot.data!.size,
+                    itemBuilder: (context, index) {
+                      return Card(
+                          child: ListTile(
+                        title: Text(snapshot.data?.docs[index]['Text']),
+                      ));
+                    },
+                  );
+                }),
           ],
         ));
   }
