@@ -63,24 +63,28 @@ class _HomePageState extends State<HomePage> {
                   fontSize: 55,
                   wordSpacing: 15)),
           actions: [
-            IconButton(
-                onPressed: _goToFBPage,
-                icon: Icon(FontAwesome5.facebook,
-                    color: Colors.deepPurple.shade400, size: 30),
-                splashRadius: 25),
-            SizedBox(width: 25),
-            IconButton(
-                onPressed: _goToTWPage,
-                icon: Icon(FontAwesome5.twitter,
-                    color: Colors.deepPurple.shade400, size: 30),
-                splashRadius: 25),
-            SizedBox(width: 25),
-            IconButton(
-                onPressed: _goToINSPage,
-                icon: Icon(FontAwesome5.instagram,
-                    color: Colors.deepPurple.shade400, size: 30),
-                splashRadius: 25),
-            SizedBox(width: 15)
+            Wrap(
+              children: [
+                IconButton(
+                    onPressed: _goToFBPage,
+                    icon: Icon(FontAwesome5.facebook,
+                        color: Colors.deepPurple.shade400, size: 30),
+                    splashRadius: 25),
+                SizedBox(width: 25),
+                IconButton(
+                    onPressed: _goToTWPage,
+                    icon: Icon(FontAwesome5.twitter,
+                        color: Colors.deepPurple.shade400, size: 30),
+                    splashRadius: 25),
+                SizedBox(width: 25),
+                IconButton(
+                    onPressed: _goToINSPage,
+                    icon: Icon(FontAwesome5.instagram,
+                        color: Colors.deepPurple.shade400, size: 30),
+                    splashRadius: 25),
+                SizedBox(width: 15)
+              ],
+            ),
           ],
           // A gradient appbar background.
           flexibleSpace: Container(
@@ -96,8 +100,7 @@ class _HomePageState extends State<HomePage> {
           elevation: 0, //shadow below the appBar
           toolbarHeight: 75,
         ),
-        body: SingleChildScrollView(
-            child: Column(
+        body: ListView(
           children: [
             Card(
               child: Container(
@@ -144,6 +147,7 @@ class _HomePageState extends State<HomePage> {
                   ),
                   padding: EdgeInsets.only(bottom: 5)),
             ),
+            
             StreamBuilder<QuerySnapshot>(
                 stream: posts.orderBy('Upvotes').snapshots(),
                 builder: (context, snapshot) {
@@ -155,6 +159,7 @@ class _HomePageState extends State<HomePage> {
                   }
 
                   return ListView.builder(
+                    physics: NeverScrollableScrollPhysics(),
                     shrinkWrap: true,
                     itemCount: snapshot.data!.size,
                     itemBuilder: (context, index) {
@@ -193,7 +198,7 @@ class _HomePageState extends State<HomePage> {
                                         ElevatedButton(
                                             onPressed: () {},
                                             style: ElevatedButton.styleFrom(
-                                              primary: Colors.green,
+                                              primary: Colors.green.shade400,
                                             ),
                                             child: Icon(
                                                 Icons.arrow_upward_rounded)),
@@ -204,7 +209,8 @@ class _HomePageState extends State<HomePage> {
                                         ElevatedButton(
                                             onPressed: () {},
                                             style: ElevatedButton.styleFrom(
-                                              primary: Colors.red,
+                                              primary:
+                                                  Colors.deepOrange.shade400,
                                             ),
                                             child: Icon(
                                                 Icons.arrow_downward_rounded)),
@@ -226,7 +232,7 @@ class _HomePageState extends State<HomePage> {
                   );
                 }),
           ],
-        )),
+        ),
         backgroundColor: Colors.deepPurple.shade50);
   }
 }
