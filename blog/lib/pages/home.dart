@@ -30,10 +30,10 @@ class _HomePageState extends State<HomePage> {
           title: Text(
             'Hunter Anonymous',
             style: TextStyle(
-                color: Colors.blue.shade800,
+                color: Colors.deepPurple.shade700,
                 fontWeight: FontWeight.bold,
-                fontSize: 40),
-          ),
+                fontSize: 55,
+                wordSpacing: 15)),
           // A gradient appbar background.
           flexibleSpace: Container(
               decoration: BoxDecoration(
@@ -41,108 +41,118 @@ class _HomePageState extends State<HomePage> {
                       begin: Alignment.topLeft,
                       end: Alignment.bottomRight,
                       colors: <Color>[
-                Colors.blue.shade100,
+                Colors.purple.shade300,
                 Colors.yellow.shade100,
               ]))),
           centerTitle: true,
           elevation: 0, //shadow below the appBar
-          toolbarHeight: 60,
+          toolbarHeight: 75,
         ),
         body: SingleChildScrollView(
-            child: Column(
-          children: [
-            Card(
-              child: Container(
-                width: 0.98 * MediaQuery.of(context).size.width,
-                child: Column(
-                  children: [
-                    TextField(
-                      keyboardType: TextInputType.multiline,
-                      maxLines: null,
-                      onChanged: (value) {
-                        post_text = value;
-                      },
-                      decoration: InputDecoration(hintText: 'Enter Post'),
-                    ),
-                    ElevatedButton(
-                        // this is our submit button
-                        onPressed: () async {
-                          await posts.add({
-                            'Date': today,
-                            'Downvotes': 0,
-                            'Text': post_text,
-                            'Upvotes': 0
-                          }).then((value) => print('post successful'));
+          child: Column(
+            children: [
+              Card(
+                child: Container(
+                  width: 0.98 * MediaQuery.of(context).size.width,
+                  child: Column(
+                    children: [
+                      TextField(
+                        keyboardType: TextInputType.multiline,
+                        maxLines: null,
+                        onChanged: (value) {
+                          post_text = value;
                         },
-                        child: Text(
-                          'Submit Post',
-                          style: TextStyle(color: Colors.white),
-                        )),
-                  ],
+                        decoration: InputDecoration(
+                          hintText: 'Enter Post',
+                          hintStyle: TextStyle(
+                            color: Color.fromRGBO(97, 53, 153, 85),
+                            fontSize: 26
+                          ),
+                          contentPadding: EdgeInsets.only(left: 10),
+                          fillColor: Colors.deepPurple.shade100,
+                          filled: true,
+                          border: OutlineInputBorder()),
+                        style: TextStyle(
+                          fontSize: 26)),
+                      ElevatedButton(
+                          // this is our submit button
+                          onPressed: () async {
+                            await posts.add({
+                              'Date': today,
+                              'Downvotes': 0,
+                              'Text': post_text,
+                              'Upvotes': 0
+                            }).then((value) => print('post successful'));
+                          },
+                          child: Text(
+                            'Submit Post',
+                            style: TextStyle(color: Colors.white),
+                          )),
+                    ],
+                  ),
                 ),
               ),
-            ),
-            StreamBuilder<QuerySnapshot>(
-                stream: posts.orderBy('Upvotes').snapshots(),
-                builder: (context, snapshot) {
-                  if (snapshot.hasError) {
-                    return Text('Something went wrong');
-                  }
-                  if (snapshot.connectionState == ConnectionState.waiting) {
-                    return Text("Loading");
-                  }
+              StreamBuilder<QuerySnapshot>(
+                  stream: posts.orderBy('Upvotes').snapshots(),
+                  builder: (context, snapshot) {
+                    if (snapshot.hasError) {
+                      return Text('Something went wrong');
+                    }
+                    if (snapshot.connectionState == ConnectionState.waiting) {
+                      return Text("Loading");
+                    }
 
-                  return ListView.builder(
-                    shrinkWrap: true,
-                    itemCount: snapshot.data!.size,
-                    itemBuilder: (context, index) {
-                      String formatted_date = DateFormat()
-                          .format(snapshot.data?.docs[index]['Date'].toDate());
-                      return Card(
-                        child: Row(
-                            // mainAxisSize: MainAxisSize.min,
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            // mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Expanded(
-                                child: Column(
-                                  children: <Widget>[
-                                    Text(snapshot.data?.docs[index]['Text']),
-                                  ],
-                                ),
-                              ),
-                              Expanded(
-                                child: Column(
-                                  children: <Widget>[
-                                    Text(formatted_date),
-                                  ],
-                                ),
-                              ),
-                              Column(
-                                children: [
-                                  Row(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
-                                      ElevatedButton(
-                                          onPressed: () {},
-                                          child: Icon(Icons.thumb_up)),
-                                      Text(
-                                          '${snapshot.data?.docs[index]['Upvotes']}'),
-                                      ElevatedButton(
-                                          onPressed: () {},
-                                          child: Icon(Icons.thumb_down)),
-                                      Text(
-                                          '${snapshot.data?.docs[index]['Downvotes']}'),
+                    return ListView.builder(
+                      shrinkWrap: true,
+                      itemCount: snapshot.data!.size,
+                      itemBuilder: (context, index) {
+                        String formatted_date = DateFormat()
+                            .format(snapshot.data?.docs[index]['Date'].toDate());
+                        return Card(
+                          child: Row(
+                              // mainAxisSize: MainAxisSize.min,
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              // mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Expanded(
+                                  child: Column(
+                                    children: <Widget>[
+                                      Text(snapshot.data?.docs[index]['Text']),
                                     ],
-                                  )
-                                ],
-                              ),
-                            ]),
-                      );
-                    },
-                  );
-                }),
-          ],
-        )));
+                                  ),
+                                ),
+                                Expanded(
+                                  child: Column(
+                                    children: <Widget>[
+                                      Text(formatted_date),
+                                    ],
+                                  ),
+                                ),
+                                Column(
+                                  children: [
+                                    Row(
+                                      mainAxisAlignment: MainAxisAlignment.center,
+                                      children: [
+                                        ElevatedButton(
+                                            onPressed: () {},
+                                            child: Icon(Icons.thumb_up)),
+                                        Text(
+                                            '${snapshot.data?.docs[index]['Upvotes']}'),
+                                        ElevatedButton(
+                                            onPressed: () {},
+                                            child: Icon(Icons.thumb_down)),
+                                        Text(
+                                            '${snapshot.data?.docs[index]['Downvotes']}'),
+                                      ],
+                                    )
+                                  ],
+                                ),
+                              ]),
+                        );
+                      },
+                    );
+                  }),
+            ],
+        )),backgroundColor: Colors.deepPurple.shade50);
   }
 }
