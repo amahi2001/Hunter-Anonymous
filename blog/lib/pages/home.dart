@@ -85,10 +85,23 @@ class _HomePageState extends State<HomePage> {
                     itemBuilder: (context, index) {
                       String formatted_date  = DateFormat().format(snapshot.data?.docs[index]['Date'].toDate());
                       return Card(
-                          child: ListTile(
-                        title: Text(snapshot.data?.docs[index]['Text']),
-                        subtitle: Text(formatted_date),
-                      ));
+                        child: Row(children: [
+                          Column(children: [Text(snapshot.data?.docs[index]['Text']),],),
+                          SizedBox(width: 200,),
+                          Column(children: [Text(formatted_date),],),
+                          SizedBox(width: 200,),
+                          Column(children: [
+                            ElevatedButton(onPressed: (){
+                            }, child: Icon(Icons.thumb_up)),
+                            Text('${snapshot.data?.docs[index]['Upvotes']}'),
+                            ],),
+                          SizedBox(width: 100,),
+                          Column(children: [
+                            ElevatedButton(onPressed: (){}, child: Icon(Icons.thumb_down)),
+                            Text('${snapshot.data?.docs[index]['Downvotes']}'),],)
+                        ]),
+                
+                      );
                     },
                   );
                 }),
