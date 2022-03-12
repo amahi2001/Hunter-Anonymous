@@ -65,9 +65,9 @@ class _HomePageState extends State<HomePage> {
                 wordSpacing: 15)),
           actions: [
             IconButton(onPressed: _goToFBPage, 
-              icon: Icon(Icons.facebook, 
+              icon: Icon(FontAwesome5.facebook, 
                 color: Colors.deepPurple.shade400,
-                size: 35),
+                size: 30),
               splashRadius: 25),
               SizedBox(width: 25),
             IconButton(onPressed: _goToTWPage,
