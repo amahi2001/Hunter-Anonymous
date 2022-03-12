@@ -4,6 +4,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:intl/intl.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:fluttericon/font_awesome5_icons.dart';
 
 //today's date
 DateTime today = DateTime(
@@ -15,11 +16,29 @@ DateTime today = DateTime(
     DateTime.now().second);
 
 _goToFBPage() async {
-  const url = 'https://www.facebook.com/Hunter-Anonymous-104189795564227';
-  if (await canLaunch(url)) {
-    await launch(url);
+  const fb_url = 'https://www.facebook.com/Hunter-Anonymous-104189795564227';
+  if (await canLaunch(fb_url)) {
+    await launch(fb_url);
   } else {
-    throw 'Could not launch $url';
+    throw 'Could not launch $fb_url';
+  }
+}
+
+_goToTWPage() async {
+  const tw_url = 'https://twitter.com/HunterAnonymou4';
+  if (await canLaunch(tw_url)) {
+    await launch(tw_url);
+  } else {
+    throw 'Could not launch $tw_url';
+  }
+}
+
+_goToINSPage() async {
+  const ins_url = 'https://www.instagram.com/hunter_anonymous395/';
+  if (await canLaunch(ins_url)) {
+    await launch(ins_url);
+  } else {
+    throw 'Could not launch $ins_url';
   }
 }
 
@@ -49,6 +68,24 @@ class _HomePageState extends State<HomePage> {
                 icon: Icon(Icons.facebook,
                     color: Colors.deepPurple.shade400, size: 35),
                 splashRadius: 25),
+            IconButton(
+                onPressed: _goToFBPage,
+                icon: Icon(FontAwesome5.facebook,
+                    color: Colors.deepPurple.shade400, size: 30),
+                splashRadius: 25),
+            SizedBox(width: 25),
+            IconButton(
+                onPressed: _goToTWPage,
+                icon: Icon(FontAwesome5.twitter,
+                    color: Colors.deepPurple.shade400, size: 30),
+                splashRadius: 25),
+            SizedBox(width: 25),
+            IconButton(
+                onPressed: _goToINSPage,
+                icon: Icon(FontAwesome5.instagram,
+                    color: Colors.deepPurple.shade400, size: 30),
+                splashRadius: 25),
+            SizedBox(width: 15)
           ],
           // A gradient appbar background.
           flexibleSpace: Container(
