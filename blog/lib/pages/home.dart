@@ -65,11 +65,6 @@ class _HomePageState extends State<HomePage> {
           actions: [
             IconButton(
                 onPressed: _goToFBPage,
-                icon: Icon(Icons.facebook,
-                    color: Colors.deepPurple.shade400, size: 35),
-                splashRadius: 25),
-            IconButton(
-                onPressed: _goToFBPage,
                 icon: Icon(FontAwesome5.facebook,
                     color: Colors.deepPurple.shade400, size: 30),
                 splashRadius: 25),
