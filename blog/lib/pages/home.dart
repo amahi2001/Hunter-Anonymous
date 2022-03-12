@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:intl/intl.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 DateTime today = DateTime(
     DateTime.now().year,
@@ -11,6 +12,15 @@ DateTime today = DateTime(
     DateTime.now().hour,
     DateTime.now().minute,
     DateTime.now().second);
+
+_goToFBPage() async {
+  const url = 'https://www.facebook.com/Hunter-Anonymous-104189795564227';
+  if (await canLaunch(url)) {
+    await launch(url);
+  } else {
+    throw 'Could not launch $url';
+  }
+}
 
 class HomePage extends StatefulWidget {
   @override
@@ -34,6 +44,13 @@ class _HomePageState extends State<HomePage> {
                 fontWeight: FontWeight.bold,
                 fontSize: 55,
                 wordSpacing: 15)),
+          actions: [
+            IconButton(onPressed: _goToFBPage, 
+              icon: Icon(Icons.facebook, 
+                color: Colors.deepPurple.shade400,
+                size: 35),
+              splashRadius: 25),
+          ],
           // A gradient appbar background.
           flexibleSpace: Container(
               decoration: BoxDecoration(
