@@ -128,9 +128,8 @@ class _HomePageState extends State<HomePage> {
                           onPressed: () async {
                             await posts.add({
                               'Date': today,
-                              'Downvotes': 0,
+                              'Votes': 0,
                               'Text': post_text,
-                              'Upvotes': 0
                             }).then((value) => print('post successful'));
                           },
                           child: Text('Submit Post',
@@ -147,9 +146,8 @@ class _HomePageState extends State<HomePage> {
                   ),
                   padding: EdgeInsets.only(bottom: 5)),
             ),
-            
             StreamBuilder<QuerySnapshot>(
-                stream: posts.orderBy('Upvotes').snapshots(),
+                stream: posts.orderBy('Date', descending: true).snapshots(),
                 builder: (context, snapshot) {
                   if (snapshot.hasError) {
                     return Text('Something went wrong');
@@ -166,68 +164,67 @@ class _HomePageState extends State<HomePage> {
                       String formatted_date = DateFormat()
                           .format(snapshot.data?.docs[index]['Date'].toDate());
                       return Card(
-                          child: Row(
-                              // mainAxisSize: MainAxisSize.min,
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              // mainAxisAlignment: MainAxisAlignment.center,
+                        color: Colors.deepPurple.shade100,
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(5),
+                            side: BorderSide(
+                                color: Colors.deepPurple.shade200, width: 1)),
+                        margin: EdgeInsets.fromLTRB(15, 5, 15, 5),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                          Flexible(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                Expanded(
-                                  child: Column(
-                                    children: <Widget>[
-                                      Text(snapshot.data?.docs[index]['Text'],
-                                          style: TextStyle(
-                                              fontSize: 20, wordSpacing: 3)),
-                                    ],
-                                  ),
-                                ),
-                                Expanded(
-                                  child: Column(
-                                    children: <Widget>[
-                                      Text(formatted_date,
-                                          style: TextStyle(
-                                              fontSize: 18, wordSpacing: 5)),
-                                    ],
-                                  ),
-                                ),
-                                Column(
-                                  children: [
-                                    Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
-                                      children: [
-                                        ElevatedButton(
-                                            onPressed: () {},
-                                            style: ElevatedButton.styleFrom(
-                                              primary: Colors.green.shade400,
-                                            ),
-                                            child: Icon(
-                                                Icons.arrow_upward_rounded)),
-                                        Text(
-                                            '${snapshot.data?.docs[index]['Upvotes']}',
-                                            style: TextStyle(fontSize: 18)),
-                                        SizedBox(width: 15),
-                                        ElevatedButton(
-                                            onPressed: () {},
-                                            style: ElevatedButton.styleFrom(
-                                              primary:
-                                                  Colors.deepOrange.shade400,
-                                            ),
-                                            child: Icon(
-                                                Icons.arrow_downward_rounded)),
-                                        Text(
-                                            '${snapshot.data?.docs[index]['Downvotes']}',
-                                            style: TextStyle(fontSize: 18)),
-                                      ],
-                                    )
-                                  ],
-                                ),
-                              ]),
-                          color: Colors.deepPurple.shade100,
-                          shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(5),
-                              side: BorderSide(
-                                  color: Colors.deepPurple.shade200, width: 1)),
-                          margin: EdgeInsets.fromLTRB(15, 5, 15, 5));
+                                Text(snapshot.data?.docs[index]['Text'],
+                                    style: TextStyle(
+                                        fontSize: 20, wordSpacing: 3)),
+                                Text(formatted_date,
+                                    style: TextStyle(
+                                        fontSize: 11, wordSpacing: 5)),
+                              ],
+                            ),
+                          ),
+                          SizedBox(
+                            width: 20,
+                          ),
+                          Column(
+                            //Upvote Downvote
+                            children: [
+                              Row(
+                                children: [
+                                  ElevatedButton(
+                                      onPressed: () {},
+                                      style: ElevatedButton.styleFrom(
+                                        primary: Colors.green.shade400,
+                                      ),
+                                      child: Icon(Icons.arrow_upward_rounded)),
+                                ],
+                              ),
+                              Row(
+                                children: [
+                                  Text(
+                                    '${snapshot.data?.docs[index]['Votes']}',
+                                    textAlign: TextAlign.center,
+                                  )
+                                ],
+                              ),
+                              Row(
+                                children: [
+                                  ElevatedButton(
+                                      onPressed: () {},
+                                      style: ElevatedButton.styleFrom(
+                                        primary: Colors.deepOrange.shade400,
+                                      ),
+                                      child:
+                                          Icon(Icons.arrow_downward_rounded)),
+                                ],
+                              ),
+                            ],
+                          ),
+                        ]),
+                      );
                     },
                   );
                 }),
