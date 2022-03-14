@@ -68,33 +68,36 @@ class _HomePageState extends State<HomePage> {
                   fontSize: 55,
                   wordSpacing: 15)),
           actions: [
-            Wrap(
-              children: [
-                IconButton(
-                    onPressed: _goToFBPage,
-                    icon: Icon(FontAwesome5.facebook,
-                        color: Colors.deepPurple.shade400, size: 30),
-                    hoverColor: Color.fromARGB(255, 250, 225, 150),
-                    highlightColor: Color.fromARGB(255, 255, 211, 78),
-                    splashRadius: 25),
-                SizedBox(width: 25),
-                IconButton(
-                    onPressed: _goToTWPage,
-                    icon: Icon(FontAwesome5.twitter,
-                        color: Colors.deepPurple.shade400, size: 30),
-                    hoverColor: Color.fromARGB(255, 250, 225, 150),
-                    highlightColor: Color.fromARGB(255, 255, 211, 78),
-                    splashRadius: 25),
-                SizedBox(width: 25),
-                IconButton(
-                    onPressed: _goToINSPage,
-                    icon: Icon(FontAwesome5.instagram,
-                        color: Colors.deepPurple.shade400, size: 30),
-                    hoverColor: Color.fromARGB(255, 250, 225, 150),
-                    highlightColor: Color.fromARGB(255, 255, 211, 78),
-                    splashRadius: 25),
-                SizedBox(width: 15)
-              ],
+            Padding(
+              padding: const EdgeInsets.all(20.0),
+              child: Wrap(
+                children: [
+                  IconButton(
+                      onPressed: _goToFBPage,
+                      icon: Icon(FontAwesome5.facebook,
+                          color: Colors.deepPurple.shade400, size: 30),
+                      hoverColor: Color.fromARGB(255, 250, 225, 150),
+                      highlightColor: Color.fromARGB(255, 255, 211, 78),
+                      splashRadius: 25),
+                  SizedBox(width: 25),
+                  IconButton(
+                      onPressed: _goToTWPage,
+                      icon: Icon(FontAwesome5.twitter,
+                          color: Colors.deepPurple.shade400, size: 30),
+                      hoverColor: Color.fromARGB(255, 250, 225, 150),
+                      highlightColor: Color.fromARGB(255, 255, 211, 78),
+                      splashRadius: 25),
+                  SizedBox(width: 25),
+                  IconButton(
+                      onPressed: _goToINSPage,
+                      icon: Icon(FontAwesome5.instagram,
+                          color: Colors.deepPurple.shade400, size: 30),
+                      hoverColor: Color.fromARGB(255, 250, 225, 150),
+                      highlightColor: Color.fromARGB(255, 255, 211, 78),
+                      splashRadius: 25),
+                  SizedBox(width: 15)
+                ],
+              ),
             ),
           ],
           // A gradient appbar background.
@@ -130,13 +133,15 @@ class _HomePageState extends State<HomePage> {
                               hintStyle: TextStyle(
                                   color: Color.fromRGBO(97, 53, 153, 85),
                                   fontSize: 26),
-                              contentPadding: EdgeInsets.only(left: 10, top: 15),
-                              suffixIcon: IconButton( // An icon button for user to remove text from a text field.
-                                padding: EdgeInsets.only(top: 15, right: 15),
-                                splashRadius: 0.1,
-                                onPressed: clearTextField,
-                                icon: Icon(Icons.clear, size: 25, color: Colors.deepPurple)
-                              ),
+                              contentPadding:
+                                  EdgeInsets.only(left: 10, top: 15),
+                              suffixIcon: IconButton(
+                                  // An icon button for user to remove text from a text field.
+                                  padding: EdgeInsets.only(top: 15, right: 15),
+                                  splashRadius: 0.1,
+                                  onPressed: clearTextField,
+                                  icon: Icon(Icons.clear,
+                                      size: 25, color: Colors.deepPurple)),
                               fillColor: Colors.deepPurple.shade100,
                               filled: true),
                           style: TextStyle(fontSize: 26),
@@ -193,59 +198,60 @@ class _HomePageState extends State<HomePage> {
                                 color: Colors.deepPurple.shade200, width: 1)),
                         margin: EdgeInsets.fromLTRB(5, 5, 5, 5),
                         child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                          Flexible(
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(snapshot.data?.docs[index]['Text'],
-                                    style: TextStyle(
-                                        fontSize: 20, wordSpacing: 3)),
-                                Text(formatted_date,
-                                    style: TextStyle(
-                                        fontSize: 11, wordSpacing: 5)),
-                              ],
-                            ),
-                          ),
-                          SizedBox(
-                            width: 20,
-                          ),
-                          Column(
-                            //Upvote Downvote
+                            mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                              Row(
+                              Flexible(
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(snapshot.data?.docs[index]['Text'],
+                                        style: TextStyle(
+                                            fontSize: 20, wordSpacing: 3)),
+                                    Text(formatted_date,
+                                        style: TextStyle(
+                                            fontSize: 11, wordSpacing: 5)),
+                                  ],
+                                ),
+                              ),
+                              SizedBox(
+                                width: 20,
+                              ),
+                              Column(
+                                //Upvote Downvote
                                 children: [
-                                  ElevatedButton(
-                                      onPressed: () {},
-                                      style: ElevatedButton.styleFrom(
-                                        primary: Colors.green.shade400,
-                                      ),
-                                      child: Icon(Icons.arrow_upward_rounded)),
+                                  Row(
+                                    children: [
+                                      ElevatedButton(
+                                          onPressed: () {},
+                                          style: ElevatedButton.styleFrom(
+                                            primary: Colors.green.shade400,
+                                          ),
+                                          child:
+                                              Icon(Icons.arrow_upward_rounded)),
+                                    ],
+                                  ),
+                                  Row(
+                                    children: [
+                                      Text(
+                                        '${snapshot.data?.docs[index]['Votes']}',
+                                        textAlign: TextAlign.center,
+                                      )
+                                    ],
+                                  ),
+                                  Row(
+                                    children: [
+                                      ElevatedButton(
+                                          onPressed: () {},
+                                          style: ElevatedButton.styleFrom(
+                                            primary: Colors.deepOrange.shade400,
+                                          ),
+                                          child: Icon(
+                                              Icons.arrow_downward_rounded)),
+                                    ],
+                                  ),
                                 ],
                               ),
-                              Row(
-                                children: [
-                                  Text(
-                                    '${snapshot.data?.docs[index]['Votes']}',
-                                    textAlign: TextAlign.center,
-                                  )
-                                ],
-                              ),
-                              Row(
-                                children: [
-                                  ElevatedButton(
-                                      onPressed: () {},
-                                      style: ElevatedButton.styleFrom(
-                                        primary: Colors.deepOrange.shade400,
-                                      ),
-                                      child:
-                                          Icon(Icons.arrow_downward_rounded)),
-                                ],
-                              ),
-                            ],
-                          ),
-                        ]),
+                            ]),
                       );
                     },
                   );
