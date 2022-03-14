@@ -74,18 +74,24 @@ class _HomePageState extends State<HomePage> {
                     onPressed: _goToFBPage,
                     icon: Icon(FontAwesome5.facebook,
                         color: Colors.deepPurple.shade400, size: 30),
+                    hoverColor: Color.fromARGB(255, 250, 225, 150),
+                    highlightColor: Color.fromARGB(255, 255, 211, 78),
                     splashRadius: 25),
                 SizedBox(width: 25),
                 IconButton(
                     onPressed: _goToTWPage,
                     icon: Icon(FontAwesome5.twitter,
                         color: Colors.deepPurple.shade400, size: 30),
+                    hoverColor: Color.fromARGB(255, 250, 225, 150),
+                    highlightColor: Color.fromARGB(255, 255, 211, 78),
                     splashRadius: 25),
                 SizedBox(width: 25),
                 IconButton(
                     onPressed: _goToINSPage,
                     icon: Icon(FontAwesome5.instagram,
                         color: Colors.deepPurple.shade400, size: 30),
+                    hoverColor: Color.fromARGB(255, 250, 225, 150),
+                    highlightColor: Color.fromARGB(255, 255, 211, 78),
                     splashRadius: 25),
                 SizedBox(width: 15)
               ],
@@ -127,6 +133,7 @@ class _HomePageState extends State<HomePage> {
                               contentPadding: EdgeInsets.only(left: 10, top: 15),
                               suffixIcon: IconButton( // An icon button for user to remove text from a text field.
                                 padding: EdgeInsets.only(top: 15, right: 15),
+                                splashRadius: 0.1,
                                 onPressed: clearTextField,
                                 icon: Icon(Icons.clear, size: 25, color: Colors.deepPurple)
                               ),
@@ -152,6 +159,8 @@ class _HomePageState extends State<HomePage> {
                                   wordSpacing: 6)),
                           style: ButtonStyle(
                               backgroundColor: MaterialStateProperty.all<Color>(
+                                  Color.fromARGB(255, 144, 105, 211)),
+                              overlayColor: MaterialStateProperty.all<Color>(
                                   Colors.deepPurple),
                               fixedSize: MaterialStateProperty.all(
                                   const Size(180, 40)))),
