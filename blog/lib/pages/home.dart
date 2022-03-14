@@ -54,9 +54,7 @@ class _HomePageState extends State<HomePage> {
 
   final text = TextEditingController();
 
-  void clearTextField() {
-    text.clear();
-  }
+  void clearTextField() => text.clear();
 
   @override
   Widget build(BuildContext context) {
@@ -127,14 +125,15 @@ class _HomePageState extends State<HomePage> {
                                   color: Color.fromRGBO(97, 53, 153, 85),
                                   fontSize: 26),
                               contentPadding: EdgeInsets.only(left: 10, top: 15),
-                              suffixIcon: IconButton( // Added an icon button for user to remove text from a text field.
+                              suffixIcon: IconButton( // An icon button for user to remove text from a text field.
                                 padding: EdgeInsets.only(top: 15, right: 15),
                                 onPressed: clearTextField,
                                 icon: Icon(Icons.clear, size: 25, color: Colors.deepPurple)
                               ),
                               fillColor: Colors.deepPurple.shade100,
                               filled: true),
-                          style: TextStyle(fontSize: 26)),
+                          style: TextStyle(fontSize: 26),
+                          cursorHeight: 26),
                       SizedBox(height: 5),
                       ElevatedButton(
                           // this is our submit button
@@ -144,6 +143,7 @@ class _HomePageState extends State<HomePage> {
                               'Votes': 0,
                               'Text': post_text,
                             }).then((value) => print('post successful'));
+                            clearTextField(); // Text will be removed from text field after pressing submission button.
                           },
                           child: Text('Submit Post',
                               style: TextStyle(
@@ -182,7 +182,7 @@ class _HomePageState extends State<HomePage> {
                             borderRadius: BorderRadius.circular(5),
                             side: BorderSide(
                                 color: Colors.deepPurple.shade200, width: 1)),
-                        margin: EdgeInsets.fromLTRB(15, 5, 15, 5),
+                        margin: EdgeInsets.fromLTRB(5, 5, 5, 5),
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
