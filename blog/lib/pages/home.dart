@@ -51,6 +51,13 @@ class _HomePageState extends State<HomePage> {
   late String post_text; //this is the user's post
   CollectionReference posts =
       FirebaseFirestore.instance.collection('posts'); //firebase instance
+
+  final text = TextEditingController();
+
+  void clearTextField() {
+    text.clear();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -93,7 +100,7 @@ class _HomePageState extends State<HomePage> {
                       begin: Alignment.topLeft,
                       end: Alignment.bottomRight,
                       colors: <Color>[
-                Colors.purple.shade300,
+                Colors.deepPurple.shade300,
                 Colors.yellow.shade100,
               ]))),
           centerTitle: true,
@@ -108,6 +115,7 @@ class _HomePageState extends State<HomePage> {
                   child: Column(
                     children: [
                       TextField(
+                          controller: text,
                           keyboardType: TextInputType.multiline,
                           maxLines: null,
                           onChanged: (value) {
@@ -118,7 +126,12 @@ class _HomePageState extends State<HomePage> {
                               hintStyle: TextStyle(
                                   color: Color.fromRGBO(97, 53, 153, 85),
                                   fontSize: 26),
-                              contentPadding: EdgeInsets.only(left: 10),
+                              contentPadding: EdgeInsets.only(left: 10, top: 15),
+                              suffixIcon: IconButton( // Added an icon button for user to remove text from a text field.
+                                padding: EdgeInsets.only(top: 15, right: 15),
+                                onPressed: clearTextField,
+                                icon: Icon(Icons.clear, size: 25, color: Colors.deepPurple)
+                              ),
                               fillColor: Colors.deepPurple.shade100,
                               filled: true),
                           style: TextStyle(fontSize: 26)),
