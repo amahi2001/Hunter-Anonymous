@@ -53,9 +53,9 @@ class _HomePageState extends State<HomePage> {
       FirebaseFirestore.instance.collection('posts'); //firebase instance
 
   final text = TextEditingController();
-
   void clearTextField() => text.clear();
-
+  
+  Stream<QuerySnapshot> get post_streams => posts.orderBy('Date', descending: true).snapshots();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -174,10 +174,10 @@ class _HomePageState extends State<HomePage> {
                   padding: EdgeInsets.only(bottom: 5)),
             ),
             StreamBuilder<QuerySnapshot>(
-                stream: posts.orderBy('Date', descending: true).snapshots(),
+                stream: post_streams,
                 builder: (context, snapshot) {
                   if (snapshot.hasError) {
-                    return Text('Something went wrong');
+                    return Text('Something went wrong: ${snapshot.error}');
                   }
                   if (snapshot.connectionState == ConnectionState.waiting) {
                     return Text("Loading");
