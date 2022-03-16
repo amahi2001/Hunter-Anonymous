@@ -209,7 +209,7 @@ class _HomePageState extends State<HomePage> {
                 width: 0.98 * MediaQuery.of(context).size.width,
                 child: Column(
                   children: [
-                    Semantics(textField: true,
+                    Semantics(
                       child: TextField(
                           controller: text,
                           keyboardType: TextInputType.multiline,
@@ -235,11 +235,13 @@ class _HomePageState extends State<HomePage> {
                               fillColor: Colors.deepPurple.shade100,
                               filled: true),
                           style: TextStyle(fontSize: 26, wordSpacing: 5),
-                          cursorHeight: 26)
-                      ), // End of the Text Field.
+                          cursorHeight: 26), // End of the Text Field.
+                      textField: true,
+                      multiline: true,
+                      label: 'You are in a text field, please enter your post.'
+                    ),
                     SizedBox(height: 5),
                     Semantics(
-                      label: 'Submission button, press enter to submit.',
                       child: ElevatedButton(
                           // this is our submit button
                           onPressed: () async {
@@ -261,7 +263,10 @@ class _HomePageState extends State<HomePage> {
                               overlayColor: MaterialStateProperty.all<Color>(
                                   Colors.deepPurple),
                               fixedSize: MaterialStateProperty.all(
-                                  const Size(180, 40)))) // End of Submission Button.
+                                  const Size(180, 40)))),
+                      button: true, // End of Submission Button.
+                      label: 'Submission Button',
+                      onTapHint: 'Press enter to submit your post.'
                     ),
                   ],
                 ),
