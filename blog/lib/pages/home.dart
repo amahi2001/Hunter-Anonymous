@@ -171,23 +171,13 @@ class _HomePageState extends State<HomePage> {
       body: ListView(
         controller: _scrollController,
         children: [
-          SizedBox(
-              child: Center(
-                  child: AnimatedTextKit(
-                      animatedTexts: [
-                ColorizeAnimatedText(
-                    'Welcome to Hunter Anonymous, you can share your voice here. It will be anonymous, but please be respectful to others.',
-                    textStyle: TextStyle(fontSize: 26, wordSpacing: 8),
-                    speed: Duration(milliseconds: 120),
-                    colors: [
-                      Colors.deepPurple,
-                      Colors.indigo,
-                      Colors.yellow,
-                      Colors.orange
-                    ]),
-              ],
-                      isRepeatingAnimation: true,
-                      repeatForever: true))), // End of welcome message.
+          Card(
+            child: Text(
+              'Welcome to Hunter Anonymous, you can share your voice here. It will be anonymous, but please be respectful to others.',
+              style: TextStyle(fontSize: 26, wordSpacing: 8,),
+              textAlign: TextAlign.center,
+            ),
+          ),
           Card(
             child: Container(
                 width: 0.98 * MediaQuery.of(context).size.width,
