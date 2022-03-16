@@ -312,7 +312,7 @@ class _HomePageState extends State<HomePage> {
                                           if (downvote_session.contains(id)) {
                                             downvote_session.remove(id);
                                             await posts.doc(id).update({
-                                              'Votes': FieldValue.increment(1),
+                                              'Votes': FieldValue.increment(2),
                                             });
                                             upvote_session.add(id);
                                           } else if (upvote_session
@@ -352,7 +352,7 @@ class _HomePageState extends State<HomePage> {
                                           if (upvote_session.contains(id)) {
                                             upvote_session.remove(id);
                                             await posts.doc(id).update({
-                                              'Votes': FieldValue.increment(-1),
+                                              'Votes': FieldValue.increment(-2),
                                             });
                                             downvote_session.add(id);
                                           } else if (downvote_session
