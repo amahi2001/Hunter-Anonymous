@@ -43,6 +43,24 @@ _goToINSPage() async {
   }
 }
 
+late DateTime loginClickTime;
+
+bool isRedundentClick(DateTime currentTime) {
+  if (loginClickTime == null) {
+    loginClickTime = currentTime;
+    print("first click");
+    return false;
+  }
+  print('diff is ${currentTime.difference(loginClickTime).inSeconds}');
+  if (currentTime.difference(loginClickTime).inHours < 24) {
+    //set this difference time in seconds
+    return true;
+  }
+
+  loginClickTime = currentTime;
+  return false;
+}
+
 class HomePage extends StatefulWidget {
   @override
   State<HomePage> createState() => _HomePageState();
@@ -55,7 +73,6 @@ class _HomePageState extends State<HomePage> {
 
   final text = TextEditingController();
   void clearTextField() => text.clear();
-  // Stream<QuerySnapshot> get post_streams => posts.orderBy('Date', descending: true).snapshots();
 
   late Stream<QuerySnapshot> PostStreams;
 
@@ -250,6 +267,10 @@ class _HomePageState extends State<HomePage> {
                                   Text(formatted_date,
                                       style: TextStyle(
                                           fontSize: 11, wordSpacing: 5)),
+                                  //for testing
+                                  Text('ID: ${snapshot.data?.docs[index].id}',
+                                      style: TextStyle(
+                                          fontSize: 11, wordSpacing: 5)),
                                 ],
                               ),
                             ),
@@ -261,8 +282,19 @@ class _HomePageState extends State<HomePage> {
                               children: [
                                 Row(
                                   children: [
+                                    //upvotes
                                     ElevatedButton(
-                                        onPressed: () {},
+                                        onPressed: () async {
+                                          int votes = snapshot
+                                              .data?.docs[index]['Votes'];
+                                          votes++;
+                                          await posts
+                                              .doc(
+                                                  snapshot.data?.docs[index].id)
+                                              .update({
+                                            'Votes': votes,
+                                          });
+                                        },
                                         style: ElevatedButton.styleFrom(
                                           primary: Colors.green.shade400,
                                         ),
@@ -281,7 +313,19 @@ class _HomePageState extends State<HomePage> {
                                 Row(
                                   children: [
                                     ElevatedButton(
-                                        onPressed: () {},
+                                        onPressed: () async {
+                                          int votes = snapshot
+                                              .data?.docs[index]['Votes'];
+                                          if (votes > 0) {
+                                            votes--;
+                                            await posts
+                                                .doc(snapshot
+                                                    .data?.docs[index].id)
+                                                .update({
+                                              'Votes': votes,
+                                            });
+                                          }
+                                        },
                                         style: ElevatedButton.styleFrom(
                                           primary: Colors.deepOrange.shade400,
                                         ),
