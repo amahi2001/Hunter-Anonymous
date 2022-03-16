@@ -17,6 +17,7 @@ class Body extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
+      // showSemanticsDebugger: true, // Debugger for accessibility features
       title: 'Anonymous blog', //title of the tab
       theme: ThemeData(
           primarySwatch: Colors.deepPurple,

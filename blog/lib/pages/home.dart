@@ -121,6 +121,7 @@ class _HomePageState extends State<HomePage> {
           ? null
           : FloatingActionButton(
               onPressed: _scrollToTop,
+              tooltip: 'Scroll to top',
               child: const Icon(Icons.arrow_upward),
             ),
       appBar: AppBar(
@@ -130,7 +131,8 @@ class _HomePageState extends State<HomePage> {
                 color: Colors.deepPurple.shade700,
                 fontWeight: FontWeight.bold,
                 fontSize: 55,
-                wordSpacing: 15)),
+                wordSpacing: 15),
+            semanticsLabel: 'Blog Title: Hunter Anonymous'),
         actions: [
           Padding(
             padding: const EdgeInsets.all(20.0),
@@ -138,6 +140,7 @@ class _HomePageState extends State<HomePage> {
               children: [
                 IconButton(
                     onPressed: _goToFBPage,
+                    tooltip: 'Facebook',
                     icon: Icon(FontAwesome5.facebook,
                         color: Colors.deepPurple.shade400, size: 30),
                     hoverColor: Color.fromARGB(255, 250, 225, 150),
@@ -146,6 +149,7 @@ class _HomePageState extends State<HomePage> {
                 SizedBox(width: 25),
                 IconButton(
                     onPressed: _goToTWPage,
+                    tooltip: 'Twitter',
                     icon: Icon(FontAwesome5.twitter,
                         color: Colors.deepPurple.shade400, size: 30),
                     hoverColor: Color.fromARGB(255, 250, 225, 150),
@@ -154,6 +158,7 @@ class _HomePageState extends State<HomePage> {
                 SizedBox(width: 25),
                 IconButton(
                     onPressed: _goToINSPage,
+                    tooltip: 'Instagram',
                     icon: Icon(FontAwesome5.instagram,
                         color: Colors.deepPurple.shade400, size: 30),
                     hoverColor: Color.fromARGB(255, 250, 225, 150),
@@ -163,7 +168,7 @@ class _HomePageState extends State<HomePage> {
               ],
             ),
           ),
-        ],
+        ],  // End of Social Media Buttons
         // A gradient appbar background.
         flexibleSpace: Container(
             decoration: BoxDecoration(
@@ -181,80 +186,83 @@ class _HomePageState extends State<HomePage> {
       body: ListView(
         controller: _scrollController,
         children: [
-          Container(
-            child: Column(
-              children: [
-                SizedBox(
-                    child: Center(
-                      child: AnimatedTextKit(
-                        animatedTexts: [
-                          ColorizeAnimatedText(
-                            'Welcome to Hunter Anonymous, you can share your voice here. It will be anonymous, but please be respectful to others.',
-                            textStyle: TextStyle(fontSize: 26, wordSpacing: 8),
-                            speed: Duration(milliseconds: 120),
-                            colors: [ 
-                              Colors.deepPurple,
-                              Colors.indigo,
-                              Colors.yellow,
-                              Colors.orange]
-                          ),
-                        ],
-                        isRepeatingAnimation: true,
-                        repeatForever: true
-                      )))])
-          ), // End of coloring Message
+          SizedBox(
+            child: Center(
+              child: AnimatedTextKit(
+                animatedTexts: [
+                  ColorizeAnimatedText(
+                    'Welcome to Hunter Anonymous, you can share your voice here. It will be anonymous, but please be respectful to others.',
+                    textStyle: TextStyle(fontSize: 26, wordSpacing: 8),
+                    speed: Duration(milliseconds: 120),
+                    colors: [ 
+                      Colors.deepPurple,
+                      Colors.indigo,
+                      Colors.yellow,
+                      Colors.orange]
+                  ),
+                ],
+                isRepeatingAnimation: true,
+                repeatForever: true
+              ))), // End of welcome message.
           Card(
             child: Container(
                 width: 0.98 * MediaQuery.of(context).size.width,
                 child: Column(
                   children: [
-                    TextField(
-                        controller: text,
-                        keyboardType: TextInputType.multiline,
-                        maxLines: null,
-                        onChanged: (value) {
-                          post_text = value;
-                        },
-                        decoration: InputDecoration(
-                            hintText: 'Enter Post',
-                            hintStyle: TextStyle(
-                                color: Color.fromRGBO(97, 53, 153, 85),
-                                fontSize: 26),
-                            contentPadding: EdgeInsets.only(left: 10, top: 15),
-                            suffixIcon: IconButton(
-                                // An icon button for user to remove text from a text field.
-                                padding: EdgeInsets.only(top: 15, right: 15),
-                                splashRadius: 0.1,
-                                onPressed: clearTextField,
-                                icon: Icon(Icons.clear,
-                                    size: 25, color: Colors.deepPurple)),
-                            fillColor: Colors.deepPurple.shade100,
-                            filled: true),
-                        style: TextStyle(fontSize: 26),
-                        cursorHeight: 26),
+                    Semantics(textField: true,
+                      child: TextField(
+                          controller: text,
+                          keyboardType: TextInputType.multiline,
+                          maxLines: null,
+                          onChanged: (value) {  
+                            post_text = value;
+                          },
+                          decoration: InputDecoration(
+                              hintText: 'Enter Post',
+                              hintStyle: TextStyle(
+                                  color: Color.fromRGBO(97, 53, 153, 85),
+                                  fontSize: 26,
+                                  wordSpacing: 4),
+                              contentPadding: EdgeInsets.only(left: 10, top: 15),
+                              suffixIcon: IconButton(
+                                  // An icon button for user to remove text from a text field.
+                                  padding: EdgeInsets.only(top: 15, right: 15),
+                                  splashRadius: 0.1,
+                                  onPressed: clearTextField,
+                                  tooltip: 'Remove input text',
+                                  icon: Icon(Icons.clear,
+                                      size: 25, color: Colors.deepPurple)),
+                              fillColor: Colors.deepPurple.shade100,
+                              filled: true),
+                          style: TextStyle(fontSize: 26, wordSpacing: 5),
+                          cursorHeight: 26)
+                      ), // End of the Text Field.
                     SizedBox(height: 5),
-                    ElevatedButton(
-                        // this is our submit button
-                        onPressed: () async {
-                          await posts.add({
-                            'Date': today,
-                            'Votes': 0,
-                            'Text': post_text,
-                          }).then((value) => print('post successful'));
-                          clearTextField(); // Text will be removed from text field after pressing submission button.
-                        },
-                        child: Text('Submit Post',
-                            style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 26,
-                                wordSpacing: 6)),
-                        style: ButtonStyle(
-                            backgroundColor: MaterialStateProperty.all<Color>(
-                                Color.fromARGB(255, 144, 105, 211)),
-                            overlayColor: MaterialStateProperty.all<Color>(
-                                Colors.deepPurple),
-                            fixedSize: MaterialStateProperty.all(
-                                const Size(180, 40)))),
+                    Semantics(
+                      label: 'Submission button, press enter to submit.',
+                      child: ElevatedButton(
+                          // this is our submit button
+                          onPressed: () async {
+                            await posts.add({
+                              'Date': today,
+                              'Votes': 0,
+                              'Text': post_text,
+                            }).then((value) => print('post successful'));
+                            clearTextField(); // Text will be removed from text field after pressing submission button.
+                          },
+                          child: Text('Submit Post',
+                              style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 26,
+                                  wordSpacing: 6)),
+                          style: ButtonStyle(
+                              backgroundColor: MaterialStateProperty.all<Color>(
+                                  Color.fromARGB(255, 144, 105, 211)),
+                              overlayColor: MaterialStateProperty.all<Color>(
+                                  Colors.deepPurple),
+                              fixedSize: MaterialStateProperty.all(
+                                  const Size(180, 40)))) // End of Submission Button.
+                    ),
                   ],
                 ),
                 padding: EdgeInsets.only(bottom: 5)),
