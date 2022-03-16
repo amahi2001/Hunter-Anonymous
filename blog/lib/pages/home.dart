@@ -6,7 +6,28 @@ import 'package:intl/intl.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:fluttericon/font_awesome5_icons.dart';
 
-//change
+
+
+/*For checking if upvote is pressed*/
+var upvote_session = [];
+var downvote_session = [];
+  bool isUpvoted(String post_id) {
+    if (upvote_session.contains(post_id)) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  bool isDownvoted(String post_id) {
+    if (downvote_session.contains(post_id)) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+
 //today's date
 DateTime today = DateTime(
     DateTime.now().year,
@@ -43,24 +64,6 @@ _goToINSPage() async {
   }
 }
 
-late DateTime loginClickTime;
-
-bool isRedundentClick(DateTime currentTime) {
-  if (loginClickTime == null) {
-    loginClickTime = currentTime;
-    print("first click");
-    return false;
-  }
-  print('diff is ${currentTime.difference(loginClickTime).inSeconds}');
-  if (currentTime.difference(loginClickTime).inHours < 24) {
-    //set this difference time in seconds
-    return true;
-  }
-
-  loginClickTime = currentTime;
-  return false;
-}
-
 class HomePage extends StatefulWidget {
   @override
   State<HomePage> createState() => _HomePageState();
@@ -73,11 +76,13 @@ class _HomePageState extends State<HomePage> {
 
   final text = TextEditingController();
   void clearTextField() => text.clear();
+ 
 
+  /*For StreamBuilder */
   late Stream<QuerySnapshot> PostStreams;
 
+  /*For Scroll to top button */
   bool _showBackToTopButton = false;
-
   late ScrollController _scrollController;
 
   @override
@@ -247,6 +252,9 @@ class _HomePageState extends State<HomePage> {
                   itemBuilder: (context, index) {
                     String formatted_date = DateFormat()
                         .format(snapshot.data?.docs[index]['Date'].toDate());
+                    var id = snapshot.data?.docs[index].id;
+                    bool isUp = isUpvoted(id!);
+                    bool isDown = isDownvoted(id);
                     return Card(
                       color: Colors.deepPurple.shade100,
                       shape: RoundedRectangleBorder(
@@ -268,7 +276,7 @@ class _HomePageState extends State<HomePage> {
                                       style: TextStyle(
                                           fontSize: 11, wordSpacing: 5)),
                                   //for testing
-                                  Text('ID: ${snapshot.data?.docs[index].id}',
+                                  Text('ID: ${id}',
                                       style: TextStyle(
                                           fontSize: 11, wordSpacing: 5)),
                                 ],
@@ -285,18 +293,22 @@ class _HomePageState extends State<HomePage> {
                                     //upvotes
                                     ElevatedButton(
                                         onPressed: () async {
-                                          int votes = snapshot
-                                              .data?.docs[index]['Votes'];
-                                          votes++;
-                                          await posts
-                                              .doc(
-                                                  snapshot.data?.docs[index].id)
-                                              .update({
-                                            'Votes': votes,
-                                          });
+                                          if (upvote_session.contains(id)) {
+                                            await posts.doc(id).update({
+                                              'Votes': FieldValue.increment(-1)
+                                            });
+                                            upvote_session.remove(id);
+                                          } else {
+                                            await posts.doc(id).update({
+                                              'Votes': FieldValue.increment(1)
+                                            });
+                                            upvote_session.add(id);
+                                          }
                                         },
                                         style: ElevatedButton.styleFrom(
-                                          primary: Colors.green.shade400,
+                                          primary: isUp
+                                              ? Colors.amber
+                                              : Colors.green.shade400,
                                         ),
                                         child:
                                             Icon(Icons.arrow_upward_rounded)),
@@ -314,17 +326,15 @@ class _HomePageState extends State<HomePage> {
                                   children: [
                                     ElevatedButton(
                                         onPressed: () async {
-                                          int votes = snapshot
-                                              .data?.docs[index]['Votes'];
-                                          if (votes > 0) {
-                                            votes--;
-                                            await posts
-                                                .doc(snapshot
-                                                    .data?.docs[index].id)
-                                                .update({
-                                              'Votes': votes,
-                                            });
-                                          }
+                                          int votes = snapshot.data?.docs[index]
+                                              ['Votes'];
+                                          votes--;
+                                          await posts
+                                              .doc(
+                                                  snapshot.data?.docs[index].id)
+                                              .update({
+                                            'Votes': votes,
+                                          });
                                         },
                                         style: ElevatedButton.styleFrom(
                                           primary: Colors.deepOrange.shade400,
