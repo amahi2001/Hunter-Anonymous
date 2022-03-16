@@ -58,16 +58,48 @@ class _HomePageState extends State<HomePage> {
   // Stream<QuerySnapshot> get post_streams => posts.orderBy('Date', descending: true).snapshots();
 
   late Stream<QuerySnapshot> PostStreams;
+
+  bool _showBackToTopButton = false;
+
+  late ScrollController _scrollController;
+
   @override
   void initState() {
     PostStreams = posts.orderBy('Date', descending: true).snapshots();
+    _scrollController = ScrollController()
+      ..addListener(() {
+        setState(() {
+          if (_scrollController.offset >= 300) {
+            _showBackToTopButton = true;
+          } else {
+            _showBackToTopButton = false;
+          }
+        });
+      });
     super.initState();
+  }
+
+  @override
+  void dispose() {
+    _scrollController.dispose();
+    super.dispose();
+  }
+
+  void _scrollToTop() {
+    _scrollController.animateTo(0,
+        duration: const Duration(seconds: 1), curve: Curves.linear);
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.deepPurple.shade50,
+      floatingActionButton: _showBackToTopButton == false
+          ? null
+          : FloatingActionButton(
+              onPressed: _scrollToTop,
+              child: const Icon(Icons.arrow_upward),
+            ),
       appBar: AppBar(
         //this creates an appbar at the top my page
         title: Text('Hunter Anonymous',
@@ -124,6 +156,7 @@ class _HomePageState extends State<HomePage> {
         toolbarHeight: 75,
       ),
       body: ListView(
+        controller: _scrollController,
         children: [
           Card(
             child: Container(
