@@ -7,27 +7,9 @@ import 'package:url_launcher/url_launcher.dart';
 import 'package:fluttericon/font_awesome5_icons.dart';
 import 'package:animated_text_kit/animated_text_kit.dart';
 
-
-
 /*For checking if upvote is pressed*/
 var upvote_session = [];
 var downvote_session = [];
-  bool isUpvoted(String post_id) {
-    if (upvote_session.contains(post_id)) {
-      return true;
-    } else {
-      return false;
-    }
-  }
-
-  bool isDownvoted(String post_id) {
-    if (downvote_session.contains(post_id)) {
-      return true;
-    } else {
-      return false;
-    }
-  }
-
 
 //today's date
 DateTime today = DateTime(
@@ -77,7 +59,6 @@ class _HomePageState extends State<HomePage> {
 
   final text = TextEditingController();
   void clearTextField() => text.clear();
- 
 
   /*For StreamBuilder */
   late Stream<QuerySnapshot> PostStreams;
@@ -168,7 +149,7 @@ class _HomePageState extends State<HomePage> {
               ],
             ),
           ),
-        ],  // End of Social Media Buttons
+        ], // End of Social Media Buttons
         // A gradient appbar background.
         flexibleSpace: Container(
             decoration: BoxDecoration(
@@ -187,87 +168,88 @@ class _HomePageState extends State<HomePage> {
         controller: _scrollController,
         children: [
           SizedBox(
-            child: Center(
-              child: AnimatedTextKit(
-                animatedTexts: [
-                  ColorizeAnimatedText(
+              child: Center(
+                  child: AnimatedTextKit(
+                      animatedTexts: [
+                ColorizeAnimatedText(
                     'Welcome to Hunter Anonymous, you can share your voice here. It will be anonymous, but please be respectful to others.',
                     textStyle: TextStyle(fontSize: 26, wordSpacing: 8),
                     speed: Duration(milliseconds: 120),
-                    colors: [ 
+                    colors: [
                       Colors.deepPurple,
                       Colors.indigo,
                       Colors.yellow,
-                      Colors.orange]
-                  ),
-                ],
-                isRepeatingAnimation: true,
-                repeatForever: true
-              ))), // End of welcome message.
+                      Colors.orange
+                    ]),
+              ],
+                      isRepeatingAnimation: true,
+                      repeatForever: true))), // End of welcome message.
           Card(
             child: Container(
                 width: 0.98 * MediaQuery.of(context).size.width,
                 child: Column(
                   children: [
                     Semantics(
-                      child: TextField(
-                          controller: text,
-                          keyboardType: TextInputType.multiline,
-                          maxLines: null,
-                          onChanged: (value) {  
-                            post_text = value;
-                          },
-                          decoration: InputDecoration(
-                              hintText: 'Enter Post',
-                              hintStyle: TextStyle(
-                                  color: Color.fromRGBO(97, 53, 153, 85),
-                                  fontSize: 26,
-                                  wordSpacing: 4),
-                              contentPadding: EdgeInsets.only(left: 10, top: 15),
-                              suffixIcon: IconButton(
-                                  // An icon button for user to remove text from a text field.
-                                  padding: EdgeInsets.only(top: 15, right: 15),
-                                  splashRadius: 0.1,
-                                  onPressed: clearTextField,
-                                  tooltip: 'Remove input text',
-                                  icon: Icon(Icons.clear,
-                                      size: 25, color: Colors.deepPurple)),
-                              fillColor: Colors.deepPurple.shade100,
-                              filled: true),
-                          style: TextStyle(fontSize: 26, wordSpacing: 5),
-                          cursorHeight: 26), // End of the Text Field.
-                      textField: true,
-                      multiline: true,
-                      label: 'You are in a text field, please enter your post.'
-                    ),
+                        child: TextField(
+                            controller: text,
+                            keyboardType: TextInputType.multiline,
+                            maxLines: null,
+                            onChanged: (value) {
+                              post_text = value;
+                            },
+                            decoration: InputDecoration(
+                                hintText: 'Enter Post',
+                                hintStyle: TextStyle(
+                                    color: Color.fromRGBO(97, 53, 153, 85),
+                                    fontSize: 26,
+                                    wordSpacing: 4),
+                                contentPadding:
+                                    EdgeInsets.only(left: 10, top: 15),
+                                suffixIcon: IconButton(
+                                    // An icon button for user to remove text from a text field.
+                                    padding:
+                                        EdgeInsets.only(top: 15, right: 15),
+                                    splashRadius: 0.1,
+                                    onPressed: clearTextField,
+                                    tooltip: 'Remove input text',
+                                    icon: Icon(Icons.clear,
+                                        size: 25, color: Colors.deepPurple)),
+                                fillColor: Colors.deepPurple.shade100,
+                                filled: true),
+                            style: TextStyle(fontSize: 26, wordSpacing: 5),
+                            cursorHeight: 26), // End of the Text Field.
+                        textField: true,
+                        multiline: true,
+                        label:
+                            'You are in a text field, please enter your post.'),
                     SizedBox(height: 5),
                     Semantics(
-                      child: ElevatedButton(
-                          // this is our submit button
-                          onPressed: () async {
-                            await posts.add({
-                              'Date': today,
-                              'Votes': 0,
-                              'Text': post_text,
-                            }).then((value) => print('post successful'));
-                            clearTextField(); // Text will be removed from text field after pressing submission button.
-                          },
-                          child: Text('Submit Post',
-                              style: TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 26,
-                                  wordSpacing: 6)),
-                          style: ButtonStyle(
-                              backgroundColor: MaterialStateProperty.all<Color>(
-                                  Color.fromARGB(255, 144, 105, 211)),
-                              overlayColor: MaterialStateProperty.all<Color>(
-                                  Colors.deepPurple),
-                              fixedSize: MaterialStateProperty.all(
-                                  const Size(180, 40)))),
-                      button: true, // End of Submission Button.
-                      label: 'Submission Button',
-                      onTapHint: 'Press enter to submit your post.'
-                    ),
+                        child: ElevatedButton(
+                            // this is our submit button
+                            onPressed: () async {
+                              await posts.add({
+                                'Date': today,
+                                'Votes': 0,
+                                'Text': post_text,
+                              }).then((value) => print('post successful'));
+                              clearTextField(); // Text will be removed from text field after pressing submission button.
+                            },
+                            child: Text('Submit Post',
+                                style: TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 26,
+                                    wordSpacing: 6)),
+                            style: ButtonStyle(
+                                backgroundColor:
+                                    MaterialStateProperty.all<Color>(
+                                        Color.fromARGB(255, 144, 105, 211)),
+                                overlayColor: MaterialStateProperty.all<Color>(
+                                    Colors.deepPurple),
+                                fixedSize: MaterialStateProperty.all(
+                                    const Size(180, 40)))),
+                        button: true, // End of Submission Button.
+                        label: 'Submission Button',
+                        onTapHint: 'Press enter to submit your post.'),
                   ],
                 ),
                 padding: EdgeInsets.only(bottom: 5)),
@@ -289,8 +271,6 @@ class _HomePageState extends State<HomePage> {
                     String formatted_date = DateFormat()
                         .format(snapshot.data?.docs[index]['Date'].toDate());
                     var id = snapshot.data?.docs[index].id;
-                    bool isUp = isUpvoted(id!);
-                    bool isDown = isDownvoted(id);
                     return Card(
                       color: Colors.deepPurple.shade100,
                       shape: RoundedRectangleBorder(
@@ -329,20 +309,27 @@ class _HomePageState extends State<HomePage> {
                                     //upvotes
                                     ElevatedButton(
                                         onPressed: () async {
-                                          if (upvote_session.contains(id)) {
+                                          if (downvote_session.contains(id)) {
+                                            downvote_session.remove(id);
                                             await posts.doc(id).update({
-                                              'Votes': FieldValue.increment(-1)
+                                              'Votes': FieldValue.increment(1),
                                             });
+                                            upvote_session.add(id);
+                                          } else if (upvote_session
+                                              .contains(id)) {
                                             upvote_session.remove(id);
+                                            await posts.doc(id).update({
+                                              'Votes': FieldValue.increment(-1),
+                                            });
                                           } else {
                                             await posts.doc(id).update({
-                                              'Votes': FieldValue.increment(1)
+                                              'Votes': FieldValue.increment(1),
                                             });
                                             upvote_session.add(id);
                                           }
                                         },
                                         style: ElevatedButton.styleFrom(
-                                          primary: isUp
+                                          primary: false
                                               ? Colors.amber
                                               : Colors.green.shade400,
                                         ),
@@ -362,15 +349,24 @@ class _HomePageState extends State<HomePage> {
                                   children: [
                                     ElevatedButton(
                                         onPressed: () async {
-                                          int votes = snapshot.data?.docs[index]
-                                              ['Votes'];
-                                          votes--;
-                                          await posts
-                                              .doc(
-                                                  snapshot.data?.docs[index].id)
-                                              .update({
-                                            'Votes': votes,
-                                          });
+                                          if (upvote_session.contains(id)) {
+                                            upvote_session.remove(id);
+                                            await posts.doc(id).update({
+                                              'Votes': FieldValue.increment(-1),
+                                            });
+                                            downvote_session.add(id);
+                                          } else if (downvote_session
+                                              .contains(id)) {
+                                            downvote_session.remove(id);
+                                            await posts.doc(id).update({
+                                              'Votes': FieldValue.increment(1),
+                                            });
+                                          } else {
+                                            await posts.doc(id).update({
+                                              'Votes': FieldValue.increment(-1),
+                                            });
+                                            downvote_session.add(id);
+                                          }
                                         },
                                         style: ElevatedButton.styleFrom(
                                           primary: Colors.deepOrange.shade400,
