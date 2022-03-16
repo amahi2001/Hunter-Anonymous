@@ -1,4 +1,5 @@
 import 'dart:html';
+import 'package:blog/updownbutton.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -93,6 +94,9 @@ class _HomePageState extends State<HomePage> {
     _scrollController.animateTo(0,
         duration: const Duration(seconds: 1), curve: Curves.linear);
   }
+
+  bool _uphasBeenPressed = false;
+  bool _downhasBeenPressed = false;
 
   @override
   Widget build(BuildContext context) {
@@ -292,91 +296,18 @@ class _HomePageState extends State<HomePage> {
                                       style: TextStyle(
                                           fontSize: 11, wordSpacing: 5)),
                                   //for testing
-                                  Text('ID: ${id}',
+                                  /*Text('ID: ${id}',
                                       style: TextStyle(
                                           fontSize: 11, wordSpacing: 5)),
+                                */
                                 ],
                               ),
                             ),
                             SizedBox(
                               width: 20,
                             ),
-                            Column(
-                              //Upvote Downvote
-                              children: [
-                                Row(
-                                  children: [
-                                    //upvotes
-                                    ElevatedButton(
-                                        onPressed: () async {
-                                          if (downvote_session.contains(id)) {
-                                            downvote_session.remove(id);
-                                            await posts.doc(id).update({
-                                              'Votes': FieldValue.increment(2),
-                                            });
-                                            upvote_session.add(id);
-                                          } else if (upvote_session
-                                              .contains(id)) {
-                                            upvote_session.remove(id);
-                                            await posts.doc(id).update({
-                                              'Votes': FieldValue.increment(-1),
-                                            });
-                                          } else {
-                                            await posts.doc(id).update({
-                                              'Votes': FieldValue.increment(1),
-                                            });
-                                            upvote_session.add(id);
-                                          }
-                                        },
-                                        style: ElevatedButton.styleFrom(
-                                          primary: false
-                                              ? Colors.amber
-                                              : Colors.green.shade400,
-                                        ),
-                                        child:
-                                            Icon(Icons.arrow_upward_rounded)),
-                                  ],
-                                ),
-                                Row(
-                                  children: [
-                                    Text(
-                                      '${snapshot.data?.docs[index]['Votes']}',
-                                      textAlign: TextAlign.center,
-                                    )
-                                  ],
-                                ),
-                                Row(
-                                  children: [
-                                    ElevatedButton(
-                                        onPressed: () async {
-                                          if (upvote_session.contains(id)) {
-                                            upvote_session.remove(id);
-                                            await posts.doc(id).update({
-                                              'Votes': FieldValue.increment(-2),
-                                            });
-                                            downvote_session.add(id);
-                                          } else if (downvote_session
-                                              .contains(id)) {
-                                            downvote_session.remove(id);
-                                            await posts.doc(id).update({
-                                              'Votes': FieldValue.increment(1),
-                                            });
-                                          } else {
-                                            await posts.doc(id).update({
-                                              'Votes': FieldValue.increment(-1),
-                                            });
-                                            downvote_session.add(id);
-                                          }
-                                        },
-                                        style: ElevatedButton.styleFrom(
-                                          primary: Colors.deepOrange.shade400,
-                                        ),
-                                        child:
-                                            Icon(Icons.arrow_downward_rounded)),
-                                  ],
-                                ),
-                              ],
-                            ),
+                            UpDownButton(id!, downvote_session, upvote_session,
+                                posts, snapshot, index)
                           ]),
                     );
                   },
