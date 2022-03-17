@@ -99,6 +99,25 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
+
+    double width = MediaQuery.of(context).size.width;
+    // Desktop & Tablet View App bar formats.
+    String appTitle = 'Hunter Anonymous';
+    double font_size = 55;
+    double icon_SizedBox1Width = 25;
+    double icon_SizedBox2Width = 15;
+    double textField_Icon_RightPadding = 15;
+    double welcome_message_FontSize = 28;
+ 
+    if (width <= 430){  // Mobile View App bar formats.
+      appTitle = 'Hunter\n Anonymous';
+      font_size = 26;
+      icon_SizedBox1Width = 0.0;
+      icon_SizedBox2Width = 5;
+      textField_Icon_RightPadding = 1;
+      welcome_message_FontSize = 16;
+    } 
+
     return Scaffold(
       backgroundColor: Colors.deepPurple.shade50,
       floatingActionButton: _showBackToTopButton == false
@@ -110,16 +129,17 @@ class _HomePageState extends State<HomePage> {
             ),
       appBar: AppBar(
         //this creates an appbar at the top my page
-        title: Text('Hunter Anonymous',
+        title: Text(appTitle,
             style: TextStyle(
                 color: Colors.deepPurple.shade700,
                 fontWeight: FontWeight.bold,
-                fontSize: 55,
+                fontSize: font_size,
                 wordSpacing: 15),
+            textAlign: TextAlign.center,
             semanticsLabel: 'Blog Title: Hunter Anonymous'),
         actions: [
           Padding(
-            padding: const EdgeInsets.all(20.0),
+            padding: const EdgeInsets.only(top: 25, bottom: 22),
             child: Wrap(
               children: [
                 IconButton(
@@ -130,7 +150,7 @@ class _HomePageState extends State<HomePage> {
                     hoverColor: Color.fromARGB(255, 250, 225, 150),
                     highlightColor: Color.fromARGB(255, 255, 211, 78),
                     splashRadius: 25),
-                SizedBox(width: 25),
+                SizedBox(width: icon_SizedBox1Width),
                 IconButton(
                     onPressed: _goToTWPage,
                     tooltip: 'Twitter',
@@ -139,7 +159,7 @@ class _HomePageState extends State<HomePage> {
                     hoverColor: Color.fromARGB(255, 250, 225, 150),
                     highlightColor: Color.fromARGB(255, 255, 211, 78),
                     splashRadius: 25),
-                SizedBox(width: 25),
+                SizedBox(width: icon_SizedBox1Width),
                 IconButton(
                     onPressed: _goToINSPage,
                     tooltip: 'Instagram',
@@ -148,7 +168,7 @@ class _HomePageState extends State<HomePage> {
                     hoverColor: Color.fromARGB(255, 250, 225, 150),
                     highlightColor: Color.fromARGB(255, 255, 211, 78),
                     splashRadius: 25),
-                SizedBox(width: 15)
+                SizedBox(width: icon_SizedBox2Width)
               ],
             ),
           ),
@@ -175,7 +195,7 @@ class _HomePageState extends State<HomePage> {
               'Welcome to Hunter Anonymous, you can share your voice here. It will be anonymous, but please be respectful to others.',
               style: TextStyle(
                 color: Colors.deepPurpleAccent.shade400,
-                fontSize: 26, 
+                fontSize: welcome_message_FontSize, 
                 wordSpacing: 8),
               textAlign: TextAlign.center,
               semanticsLabel: 'A welcome message to users.'
@@ -205,7 +225,7 @@ class _HomePageState extends State<HomePage> {
                                 suffixIcon: IconButton(
                                     // An icon button for user to remove text from a text field.
                                     padding:
-                                        EdgeInsets.only(top: 15, right: 15),
+                                        EdgeInsets.only(top: 15, right: textField_Icon_RightPadding),
                                     splashRadius: 0.1,
                                     onPressed: clearTextField,
                                     tooltip: 'Remove input text',

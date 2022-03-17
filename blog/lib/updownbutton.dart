@@ -63,7 +63,7 @@ class _UpDownButtonState extends State<UpDownButton> {
                     primary: _uphasBeenPressed
                         ? Colors.deepPurpleAccent.shade100
                         : Color.fromARGB(255, 144, 148, 150),
-                  ),
+                  ).copyWith(overlayColor: MaterialStateProperty.all<Color>(Colors.deepPurpleAccent.shade100)),
                   child: Icon(Icons.arrow_upward_rounded)),
             ],
           ),
@@ -105,7 +105,7 @@ class _UpDownButtonState extends State<UpDownButton> {
                     primary: _downhasBeenPressed
                         ? Colors.orange.shade200
                         : Color.fromARGB(255, 144, 148, 150),
-                  ),
+                  ).copyWith(overlayColor: MaterialStateProperty.all<Color>(Colors.orange.shade200)),
                   // Colors.deepOrange.shade400,
                   child: Icon(Icons.arrow_downward_rounded)),
             ],
