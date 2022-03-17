@@ -6,7 +6,6 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:intl/intl.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:fluttericon/font_awesome5_icons.dart';
-import 'package:animated_text_kit/animated_text_kit.dart';
 
 /*For checking if upvote is pressed*/
 var upvote_session = [];
@@ -174,8 +173,12 @@ class _HomePageState extends State<HomePage> {
           Card(
             child: Text(
               'Welcome to Hunter Anonymous, you can share your voice here. It will be anonymous, but please be respectful to others.',
-              style: TextStyle(fontSize: 26, wordSpacing: 8,),
+              style: TextStyle(
+                color: Colors.deepPurpleAccent.shade400,
+                fontSize: 26, 
+                wordSpacing: 8),
               textAlign: TextAlign.center,
+              semanticsLabel: 'A welcome message to users.'
             ),
           ),
           Card(
@@ -214,8 +217,7 @@ class _HomePageState extends State<HomePage> {
                             cursorHeight: 26), // End of the Text Field.
                         textField: true,
                         multiline: true,
-                        label:
-                            'You are in a text field, please enter your post.'),
+                        label:'You are in a text field, please enter your post.'),
                     SizedBox(height: 5),
                     Semantics(
                         child: ElevatedButton(
@@ -276,15 +278,19 @@ class _HomePageState extends State<HomePage> {
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             Flexible(
+                              fit: FlexFit.tight,
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  Text(snapshot.data?.docs[index]['Text'],
+                                  Padding(padding: EdgeInsets.only(left:15, top: 6, right: 15, bottom: 3),
+                                    child: Text(snapshot.data?.docs[index]['Text'],
                                       style: TextStyle(
-                                          fontSize: 20, wordSpacing: 3)),
-                                  Text(formatted_date,
+                                          color: Colors.deepPurple.shade900, fontSize: 20, wordSpacing: 3))),
+                                  Padding(
+                                    padding: EdgeInsets.only(left: 15, right: 15, bottom: 6),
+                                    child: Text(formatted_date,
                                       style: TextStyle(
-                                          fontSize: 11, wordSpacing: 5)),
+                                          fontSize: 12, wordSpacing: 5))),
                                   //for testing
                                   /*Text('ID: ${id}',
                                       style: TextStyle(
@@ -296,8 +302,10 @@ class _HomePageState extends State<HomePage> {
                             SizedBox(
                               width: 20,
                             ),
-                            UpDownButton(id!, downvote_session, upvote_session,
-                                posts, snapshot, index)
+                            Padding(
+                              padding: EdgeInsets.only(top: 6, right:15, bottom: 6),
+                              child: UpDownButton(id!, downvote_session, upvote_session,
+                                posts, snapshot, index))
                           ]),
                     );
                   },
