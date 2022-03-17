@@ -11,6 +11,15 @@ import 'package:fluttericon/font_awesome5_icons.dart';
 var upvote_session = [];
 var downvote_session = [];
 
+void deletePosts(CollectionReference collection){
+  var doc = collection.get();
+  doc.then((snapshot) {
+    snapshot.docs.forEach((doc) {
+      doc.reference.delete();
+    });
+  });
+}
+
 //today's date
 DateTime today = DateTime(
     DateTime.now().year,
@@ -56,7 +65,7 @@ class _HomePageState extends State<HomePage> {
   late String post_text; //this is the user's post
   CollectionReference posts =
       FirebaseFirestore.instance.collection('posts'); //firebase instance
-
+  
   final text = TextEditingController();
   void clearTextField() => text.clear();
 
@@ -69,6 +78,7 @@ class _HomePageState extends State<HomePage> {
 
   @override
   void initState() {
+    // deletePosts(posts);
     PostStreams = posts.orderBy('Date', descending: true).snapshots();
     _scrollController = ScrollController()
       ..addListener(() {
